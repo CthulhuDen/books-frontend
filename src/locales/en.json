@@ -1,0 +1,70 @@
+{
+  "title": "Books Index",
+  "term": {
+    "genre": "Genre",
+    "genres": "Genres",
+    "author": "Author",
+    "authors": "Authors",
+    "sequences": "Series",
+    "books": "Books",
+    "options": "Options"
+  },
+  "message": {
+    "error": {
+      "get_genres": "Failed to load genres",
+      "search_authors": "Failed to search authors",
+      "get_author": "Failed to load author data",
+      "search_series": "Failed to search series",
+      "get_series": "Failed to load series data",
+      "search_books": "Failed to fetch list of books",
+      "fetch_next_page_books": "Failed to fetch next page of books"
+    }
+  },
+  "component": {
+    "select": {
+      "label_all": "Select all",
+      "label_found": "Found items",
+      "label_not_found": "No items found"
+    },
+    "show_more": {
+      "button_more": "Show more",
+      "button_less": "Show less"
+    }
+  },
+  "search": {
+    "genre": {
+      "label": "Search for genres",
+      "label_more": "Search for more genres",
+      "label_tags": "You can specify any number of genres to restrict the selection of books",
+      "text_tags": "You can specify any number of genres to restrict the selection of books, or skip filtering by genres completely.",
+      "button_remove": "Remove this genre from filter",
+      "loading": "Loading list of genres..."
+    },
+    "author": {
+      "label": "Search author",
+      "loading": "Loading author info..."
+    },
+    "series": {
+      "label": "Search series",
+      "loading": "Loading series info..."
+    },
+    "books": {
+      "label_title": "Search books by title",
+      "label_year": "Filter by publishing year",
+      "placeholder_year_from": "From",
+      "placeholder_year_to": "To"
+    },
+    "group": {
+      "label": "Group books"
+    }
+  },
+  "book": {
+    "label_in_series": "In series:",
+    "label_year": "Published:"
+  },
+  "books": {
+    "group": {
+      "label_author": "Books by {name}"
+    }
+  }
+}
