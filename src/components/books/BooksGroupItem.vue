@@ -48,7 +48,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="[&:first-child>h2]:mt-0">
     <h2
-      class="leading-[1.3333] text-2xl font-bold bg-base-100 p-3 sticky"
+      class="leading-[1.3333] text-2xl font-bold bg-base-100 p-3 sticky text-accent"
       ref="header"
       :class="{
         'pt-0': nestLevel > 0,

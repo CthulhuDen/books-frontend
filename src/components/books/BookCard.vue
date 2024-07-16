@@ -18,7 +18,7 @@ const { t } = useI18n()
 
 <template>
   <div class="card bg-base-200 p-4 md:p-5 mt-3 md:mt-6 first:mt-0">
-    <h2 class="leading-[1.3333] text-2xl font-bold mb-3">{{ book.title }}</h2>
+    <h2 class="leading-[1.3333] text-2xl font-bold mb-3 text-primary">{{ book.title }}</h2>
     <div>
       <img
         v-if="book.cover_url"
