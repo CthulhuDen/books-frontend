@@ -67,6 +67,8 @@ const bio = computed(() => (author.value ? sanitize(author.value.bio || '') : ''
     <FormControl
       :label="t('search.author.label')"
       class="w-full md:w-60 lg:w-80 shrink-0 self-start relative"
+      :can-clear="!!author"
+      @clear="author = undefined"
     >
       <ComboBox
         v-if="status === 'ready'"

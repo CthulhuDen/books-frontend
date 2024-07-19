@@ -70,6 +70,8 @@ const { t } = useI18n()
       <FormControl
         :label="t('search.books.label_title')"
         class="w-full md:w-auto md:basis-0 md:grow-[1.5] md:shrink-0"
+        :can-clear="!!query.search"
+        @clear="query.search = ''"
       >
         <input
           type="text"
@@ -87,6 +89,8 @@ const { t } = useI18n()
       <FormControl
         :label="t('search.books.label_year')"
         class="w-full md:w-auto md:basis-0 md:grow md:shrink-0"
+        :can-clear="!!query.year_min || !!query.year_max"
+        @clear="(query.year_min = 0), (query.year_max = 0)"
       >
         <input
           type="number"

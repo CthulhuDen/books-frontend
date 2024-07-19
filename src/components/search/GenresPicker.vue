@@ -51,6 +51,8 @@ onMounted(async () => {
   <div class="flex flex-wrap md:flex-nowrap gap-4">
     <FormControl
       :label="model.length > 0 ? t('search.genre.label_more') : t('search.genre.label')"
+      :can-clear="model.length > 0"
+      @clear="model = []"
       class="w-full md:w-60 lg:w-80 shrink-0 self-start relative"
     >
       <ComboBox
@@ -92,7 +94,7 @@ onMounted(async () => {
         >
           <span class="text-base-content">{{ genre }}</span>
           <span
-            class="px-1 mr-[-0.5rem] text-base-200 group-hover:text-secondary before:content-[attr(data-before)]"
+            class="px-1 mr-[-0.5rem] text-base-200 group-hover:text-red-600 before:content-[attr(data-before)]"
             data-before="&times;"
           ></span>
         </button>

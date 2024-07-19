@@ -60,7 +60,12 @@ watchEffect(() => {
 </script>
 
 <template>
-  <FormControl :label="t('search.series.label')" class="shrink-0 self-start relative">
+  <FormControl
+    :label="t('search.series.label')"
+    class="shrink-0 self-start relative"
+    :can-clear="!!series"
+    @clear="series = undefined"
+  >
     <ComboBox
       v-if="status === 'ready'"
       v-model="series"

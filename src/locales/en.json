@@ -26,6 +26,9 @@
     }
   },
   "component": {
+    "form": {
+      "clear": "Clear"
+    },
     "select": {
       "label_all": "Select all",
       "label_found": "Found items",

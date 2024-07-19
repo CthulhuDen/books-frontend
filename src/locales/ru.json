@@ -26,6 +26,9 @@
     }
   },
   "component": {
+    "form": {
+      "clear": "Очистить"
+    },
     "select": {
       "label_all": "Выбрать все",
       "label_found": "Найденные записи",

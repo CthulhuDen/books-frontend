@@ -43,7 +43,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="form-control">
+  <div class="form-control relative">
     <span class="label">
       <span class="label-text">{{ t('search.group.label') }}</span>
     </span>
@@ -61,5 +61,12 @@ watchEffect(() => {
         }}</span>
       </button>
     </div>
+    <button
+      v-if="chosen.length > 0"
+      class="absolute right-0 top-1.5 btn btn-xs btn-ghost text-red-600"
+      @click="chosen = []"
+    >
+      {{ t('component.form.clear') }}
+    </button>
   </div>
 </template>
