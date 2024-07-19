@@ -1,22 +1,15 @@
 <script setup lang="ts">
-import BooksList from '@/components/books/BooksList.vue'
 import SearchForm from '@/components/SearchForm.vue'
 import { onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
 import ToastsStack from '@/components/ToastsStack.vue'
-import type {
-  Author,
-  Book,
-  BookGrouping,
-  BookInGroup,
-  SearchBooksResponse,
-  Series
-} from '@/api/client'
+import type { Author, BookGrouping, BookInGroup, SearchBooksResponse, Series } from '@/api/client'
 import { searchBooks, showError } from '@/api/client'
 import { onlyLastResponse } from '@/utils/fetch'
 import type { BooksCollection } from './utils/types'
 import BooksGroups from '@/components/books/BooksGroups.vue'
 import { arrayEquals } from '@/utils/helpers'
 import { useI18n } from 'vue-i18n'
+import BookCard from '@/components/books/BookCard.vue'
 
 const query = ref()
 
@@ -148,12 +141,15 @@ onBeforeUnmount(() => window.removeEventListener('scroll', checkLoadMore))
     <h1 class="leading-[1.111111] text-4xl font-extrabold mb-4">{{ t('title') }}</h1>
     <SearchForm @input="(q) => (query = q)" />
     <div class="mx-[-1rem] md:mx-0 mt-0 md:mt-3">
-      <BooksList
-        v-if="collection && collection.type === 'plain'"
-        :books="collection.books as Book[]"
-        :authors="authors"
-        :series="series"
-      />
+      <template v-if="collection && collection.type === 'plain'">
+        <BookCard
+          v-for="book in collection.books"
+          :key="book.id"
+          :book="book"
+          :series="series"
+          :authors="authors"
+        />
+      </template>
       <BooksGroups
         v-else-if="collection"
         :groups="collection.groups"

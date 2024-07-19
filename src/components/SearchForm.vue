@@ -96,7 +96,10 @@ const { t } = useI18n()
           class="input bg-base-200 w-1 flex-grow"
           :class="{ 'input-primary': !query.year_min, 'input-accent': !!query.year_min }"
         />
-        <span class="mx-1 leading-[3rem]">&mdash;</span>
+        <span
+          class="mx-1 leading-[3rem] before:content-[attr(data-before)]"
+          data-before="&mdash;"
+        ></span>
         <input
           type="number"
           :placeholder="t('search.books.placeholder_year_to')"

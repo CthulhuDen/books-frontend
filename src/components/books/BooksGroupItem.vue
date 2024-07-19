@@ -2,9 +2,10 @@
 import type { Author, BookGrouping, Series } from '@/api/client'
 import type { BooksGroup } from '@/utils/types'
 import BooksGroups from '@/components/books/BooksGroups.vue'
-import BooksList from '@/components/books/BooksList.vue'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import BookCard from '@/components/books/BookCard.vue'
+import { tl } from '@/utils/i18n'
 
 const props = defineProps<{
   group: BooksGroup
@@ -19,7 +20,7 @@ const { t } = useI18n()
 const stringifyGroup = (group: BookGrouping) => {
   switch (group.type) {
     case 'genres':
-      return group.value.join(', ')
+      return tl(group.value)
     case 'author':
       return t('books.group.label_author', { name: props.authors[group.value].name })
     case 'series':
@@ -59,12 +60,15 @@ onBeforeUnmount(() => {
       {{ stringifyGroup(group.group) }}
     </h2>
     <div class="z-0">
-      <BooksList
-        v-if="group.books.type === 'plain'"
-        :books="group.books.books"
-        :authors="authors"
-        :series="series"
-      />
+      <template v-if="group.books.type === 'plain'">
+        <BookCard
+          v-for="book in group.books.books"
+          :key="book.id"
+          :book="book"
+          :series="series"
+          :authors="authors"
+        />
+      </template>
       <BooksGroups
         v-else
         :groups="group.books.groups"

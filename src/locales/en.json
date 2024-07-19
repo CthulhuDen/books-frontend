@@ -1,5 +1,10 @@
 {
   "title": "Books Index",
+  "quote": "\"{item}\"",
+  "list": {
+    "append": "{items}, {item}",
+    "append_last": "{items} and {item}"
+  },
   "term": {
     "genre": "Genre",
     "genres": "Genres",
@@ -31,6 +36,9 @@
       "button_less": "Show less"
     }
   },
+  "toasts": {
+    "dismiss": "Dismiss this message"
+  },
   "search": {
     "genre": {
       "label": "Search for genres",
@@ -60,7 +68,9 @@
   },
   "book": {
     "label_in_series": "In series:",
-    "label_year": "Published:"
+    "label_year": "Published:",
+    "label_authors": "@:term.author{':'}|@:term.authors{':'}",
+    "label_genres": "@:term.genre{':'}|@:term.genres{':'}"
   },
   "books": {
     "group": {

@@ -18,13 +18,8 @@ export const navGet = (key: string): string | null => {
 }
 
 export const navSet = (key: string, ...vals: string[]) => {
-  let url: URLSearchParams
   const h = window.location.hash
-  if (h.length <= 1) {
-    url = new URLSearchParams()
-  } else {
-    url = new URLSearchParams(h.substring(1))
-  }
+  const url = h.length <= 1 ? new URLSearchParams() : new URLSearchParams(h.substring(1))
 
   let num_filtered = 0
   for (const val of vals) {

@@ -50,7 +50,7 @@ onMounted(async () => {
 <template>
   <div class="flex flex-wrap md:flex-nowrap gap-4">
     <FormControl
-      :label="model.length > 0 ? t('search.genre.label') : t('search.genre.label_more')"
+      :label="model.length > 0 ? t('search.genre.label_more') : t('search.genre.label')"
       class="w-full md:w-60 lg:w-80 shrink-0 self-start relative"
     >
       <ComboBox
@@ -64,7 +64,7 @@ onMounted(async () => {
         v-else-if="genresState === 'failed'"
         type="text"
         class="input input-disabled"
-        value="Failed to load genres"
+        :value="t('message.error.get_genres')"
       />
       <input v-else type="text" class="input input-disabled" :value="t('search.genre.loading')" />
     </FormControl>
@@ -91,7 +91,10 @@ onMounted(async () => {
           :title="t('search.genre.button_remove')"
         >
           <span class="text-base-content">{{ genre }}</span>
-          <span class="px-1 mr-[-0.5rem] text-base-200 group-hover:text-secondary">&times;</span>
+          <span
+            class="px-1 mr-[-0.5rem] text-base-200 group-hover:text-secondary before:content-[attr(data-before)]"
+            data-before="&times;"
+          ></span>
         </button>
       </div>
     </div>

@@ -1,5 +1,10 @@
 {
   "title": "Поиск книг",
+  "quote": "«{item}»",
+  "list": {
+    "append": "{items}, {item}",
+    "append_last": "{items} и {item}"
+  },
   "term": {
     "genre": "Жанр",
     "genres": "Жанры",
@@ -31,6 +36,9 @@
       "button_less": "Показать меньше"
     }
   },
+  "toasts": {
+    "dismiss": "Скрыть это сообщение"
+  },
   "search": {
     "genre": {
       "label": "Поиск жанров",
@@ -60,7 +68,9 @@
   },
   "book": {
     "label_in_series": "В серии:",
-    "label_year": "Опубликовано:"
+    "label_year": "Опубликовано:",
+    "label_authors": "@:term.author{':'}|@:term.authors{':'}",
+    "label_genres": "@:term.genre{':'}|@:term.genres{':'}"
   },
   "books": {
     "group": {

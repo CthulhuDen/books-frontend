@@ -4,6 +4,8 @@ import ShowMore from '@/components/common/ShowMore.vue'
 import { computed } from 'vue'
 import { sanitize } from '@/utils/html'
 import { useI18n } from 'vue-i18n'
+import { tl } from '@/utils/i18n'
+import I18nL from '@/components/common/I18nL.vue'
 
 const props = defineProps<{
   book: Book
@@ -27,47 +29,44 @@ const { t } = useI18n()
       />
       <div v-if="book.author_ids.length > 0" class="mb-2">
         <h4 class="inline-block leading-[1.5] font-semibold">
-          {{ book.author_ids.length === 1 ? t('term.author') : t('term.authors') }}:
+          {{ t('book.label_authors', book.author_ids.length) }}
         </h4>
-        {{}}
-        <span v-for="(author_id, ix) in book.author_ids" :key="author_id">
-          <template v-if="ix != 0">, </template>
-          <template v-if="authors[author_id].avatar_url"
-            ><img
-              v-if="authors[author_id].avatar_url"
-              :src="authors[author_id].avatar_url as string"
-              class="max-h-4 inline-block"
-            />&nbsp;</template
-          >{{ authors[author_id].name }}
-        </span>
+        {{ ' ' }}
+        <i18n-l>
+          <span v-for="author_id in book.author_ids" :key="author_id">
+            <template v-if="authors[author_id].avatar_url"
+              ><img
+                v-if="authors[author_id].avatar_url"
+                :src="authors[author_id].avatar_url as string"
+                class="max-h-4 inline-block"
+              />&nbsp;</template
+            >{{ authors[author_id].name }}
+          </span>
+        </i18n-l>
       </div>
       <div v-if="book.series.length > 0" class="mb-2">
         <h4 class="inline-block leading-[1.5] font-semibold">{{ t('book.label_in_series') }}</h4>
-        {{}}
-        <span v-for="(in_series, ix) in book.series" :key="in_series.id">
-          <template v-if="ix != 0">, </template>
-          {{ series[in_series.id].title }} {{}}
-        </span>
+        {{ ' ' }}
+        {{ tl(book.series.map((s) => t('quote', { item: series[s.id].title }))) }}
       </div>
       <div v-if="book.genres.length > 0" class="mb-2">
         <h4 class="inline-block leading-[1.5] font-semibold">
-          {{ book.genres.length === 1 ? t('term.genre') : t('term.genres') }}:
+          {{ t('book.label_genres', book.genres.length) }}
         </h4>
-        {{}}
-        <span v-for="(genre, ix) in book.genres" :key="genre">
-          <template v-if="ix != 0">, </template>
-          {{ genre }}
-        </span>
+        {{ ' ' }}
+        {{ tl(book.genres) }}
       </div>
       <div v-if="book.year > 0" class="mb-2">
         <h4 class="inline-block leading-[1.5] font-semibold">{{ t('book.label_year') }}</h4>
-        {{}}
+        {{ ' ' }}
         <span>{{ book.year }}</span>
       </div>
-      <ShowMore v-if="about" height="10rem" class="hidden md:block"
-        ><div v-html="about"></div
-      ></ShowMore>
+      <ShowMore v-if="about" height="10rem" class="hidden md:block">
+        <div v-html="about"></div>
+      </ShowMore>
     </div>
-    <ShowMore v-if="about" height="10rem" class="md:hidden"><div v-html="about"></div></ShowMore>
+    <ShowMore v-if="about" height="10rem" class="md:hidden">
+      <div v-html="about"></div>
+    </ShowMore>
   </div>
 </template>
