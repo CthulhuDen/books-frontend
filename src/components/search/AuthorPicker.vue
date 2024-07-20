@@ -22,7 +22,7 @@ const getAuthors = async (query: string) =>
     )
   ).authors
 
-const author = ref<Author>()
+const author = ref<Author | null>(null)
 
 let currentQuery: {}
 const status = ref<'loading' | 'ready'>('ready')
@@ -35,7 +35,7 @@ useNavigateListener('author', async (val: string | null) => {
   }
 
   if (val === null) {
-    author.value = undefined
+    author.value = null
     status.value = 'ready'
     return
   }
@@ -68,7 +68,7 @@ const bio = computed(() => (author.value ? sanitize(author.value.bio || '') : ''
       :label="t('search.author.label')"
       class="w-full md:w-60 lg:w-80 shrink-0 self-start relative"
       :can-clear="!!author"
-      @clear="author = undefined"
+      @clear="author = null"
     >
       <ComboBox
         v-if="status === 'ready'"

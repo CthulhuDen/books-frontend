@@ -21,7 +21,7 @@ const getSequences = async (query: string) =>
 
 const { t } = useI18n()
 
-const series = ref<Series>()
+const series = ref<Series | null>(null)
 
 let currentQuery: {}
 const status = ref<'loading' | 'ready'>('ready')
@@ -34,7 +34,7 @@ useNavigateListener('series', async (val: string | null) => {
   }
 
   if (val === null) {
-    series.value = undefined
+    series.value = null
     status.value = 'ready'
     return
   }
@@ -64,7 +64,7 @@ watchEffect(() => {
     :label="t('search.series.label')"
     class="shrink-0 self-start relative"
     :can-clear="!!series"
-    @clear="series = undefined"
+    @clear="series = null"
   >
     <ComboBox
       v-if="status === 'ready'"
