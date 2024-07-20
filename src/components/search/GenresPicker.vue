@@ -90,13 +90,21 @@ onMounted(async () => {
           :key="genre"
           class="badge badge-accent badge-outline bg-base-200 flex-none group whitespace-nowrap overflow-hidden max-w-[99%] justify-start"
           @click="removeGenre(genre)"
-          :title="t('search.genre.button_remove')"
+          :title="t('search.genre.button_remove', { label: genre })"
         >
           <span class="text-base-content">{{ genre }}</span>
-          <span
-            class="px-1 mr-[-0.5rem] text-base-200 group-hover:text-red-600 before:content-[attr(data-before)]"
-            data-before="&times;"
-          ></span>
+          <span class="px-1 ml-[-0.3rem] mr-[-0.6rem] text-base-200 group-hover:text-red-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="size-4"
+            >
+              <path
+                d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z"
+              />
+            </svg>
+          </span>
         </button>
       </div>
     </div>

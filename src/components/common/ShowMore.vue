@@ -59,8 +59,10 @@ const { t } = useI18n()
         <slot />
       </div>
     </div>
-    <div class="flex justify-center mt-2 relative" v-show="canOverflow">
-      <span class="border-t opacity-30 flex-grow mt-4"></span>
+    <div
+      class="divider !gap-0 before:bg-current before:h-[1px] before:opacity-50 after:bg-current after:h-[1px] after:opacity-50"
+      v-show="canOverflow"
+    >
       <button class="btn btn-outline btn-sm rounded-badge" @click="expanded = !expanded">
         <svg
           v-if="expanded"
@@ -91,7 +93,6 @@ const { t } = useI18n()
 
         {{ expanded ? t('component.show_more.button_less') : t('component.show_more.button_more') }}
       </button>
-      <span class="border-t opacity-30 flex-grow mt-4"></span>
     </div>
   </div>
 </template>

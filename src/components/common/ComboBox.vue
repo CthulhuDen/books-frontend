@@ -78,7 +78,7 @@ const { t } = useI18n()
       v-if="open || focused"
       static
       as="ul"
-      class="menu bg-base-300 rounded-box p-2 shadow absolute top-[100%] max-h-[calc(min(24rem,90dvh))] flex-nowrap overflow-x-auto z-[1]"
+      class="menu bg-base-300 rounded-box p-2 shadow absolute top-[100%] max-h-[calc(min(24rem,90dvh))] flex-nowrap overflow-x-auto z-[4]"
       :class="[width]"
     >
       <li v-if="multiple && search && itemsFiltered.length > 1">
