@@ -6,6 +6,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BookCard from '@/components/books/BookCard.vue'
 import { tl } from '@/utils/i18n'
+import { useGenresStore } from '@/stores/genres'
 
 const props = defineProps<{
   group: BooksGroup
@@ -16,11 +17,17 @@ const props = defineProps<{
 }>()
 
 const { t } = useI18n()
+const { byCode: genreByCode } = useGenresStore()
 
 const stringifyGroup = (group: BookGrouping) => {
   switch (group.type) {
     case 'genres':
-      return tl(group.value)
+      return tl(
+        group.value.map((code) => {
+          const genre = genreByCode(code)
+          return genre ? genre.title : code
+        })
+      )
     case 'author':
       return t('books.group.label_author', { name: props.authors[group.value].name })
     case 'series':

@@ -1,50 +1,137 @@
 <script setup lang="ts">
 import FormControl from '@/components/common/FormControl.vue'
 import ComboBox from '@/components/common/ComboBox.vue'
-import { onMounted, ref, watchEffect } from 'vue'
-import { getGenres, showError } from '@/api/client'
-import { navSet, useNavigateListener } from '@/utils/navigate'
+import { computed, ref, watchEffect } from 'vue'
+import { type Genre } from '@/api/client'
+import { navGetAll, navSet, useNavigateListener } from '@/utils/navigate'
 import { arrayEquals } from '@/utils/helpers'
 import { useI18n } from 'vue-i18n'
+import { useGenresStore } from '@/stores/genres'
+import { storeToRefs } from 'pinia'
 
-const model = ref<string[]>([])
-
-useNavigateListener(
-  'genre',
-  (genres: string[]) => {
-    if (!arrayEquals(genres, model.value)) {
-      model.value = genres
+const model = ref<Genre[]>([])
+const modelGroups = computed((): string[] => {
+  let keys = new Set<string>()
+  for (let genre of model.value) {
+    if (!keys.has(genre.group_title)) {
+      keys.add(genre.group_title)
     }
-  },
-  true
-)
+  }
 
-const emit = defineEmits(['input'])
-watchEffect(() => {
-  navSet('genre', ...model.value)
-  emit('input', model.value)
+  const ret = Array.from(keys.values())
+  ret.sort()
+
+  return ret
 })
+const updateModelGroups = (groups: string[]) => {
+  const groupsLocal = Array.from(groups)
+  groupsLocal.sort()
 
-const removeGenre = (genre: string) => {
-  model.value = model.value.filter((g) => g !== genre)
+  const newModel = []
+
+  for (let group of groupsLocal) {
+    const isOld = modelGroups.value.includes(group)
+    for (let genre of genresByGroups.value[group]) {
+      if (!isOld || model.value.some((genreOld) => genreOld.code === genre.code)) {
+        newModel.push(genre)
+      }
+    }
+  }
+
+  model.value = newModel
+}
+
+const removeGenre = (code: string) => {
+  model.value = model.value.filter((g) => g.code !== code)
 }
 
 const { t } = useI18n()
 
-const genresState = ref('loading')
-const genres = ref<Array<string>>([])
+const { genres, state: genresState } = storeToRefs(useGenresStore())
 
-onMounted(async () => {
-  genresState.value = 'loading'
-
-  try {
-    genres.value = (await showError(getGenres(), t('message.error.get_genres'))).titles
-  } catch (e) {
-    genresState.value = 'failed'
-    throw e
+watchEffect(() => {
+  if (genresState.value !== 'loaded') {
+    return
   }
-  genresState.value = 'loaded'
+
+  const genresLocal = navGetAll('genre')
+  genresLocal.sort()
+
+  const newModel = []
+  for (let group in genresByGroups.value) {
+    for (let genre of genresByGroups.value[group]) {
+      if (genresLocal.includes(genre.code)) {
+        newModel.push(genre)
+      }
+    }
+  }
+
+  model.value = newModel
 })
+
+const genreGroups = computed(() => {
+  const ret = Object.getOwnPropertyNames(genresByGroups.value)
+  ret.sort()
+
+  return ret
+})
+const genresByGroups = computed(() => {
+  const ret: Record<string, Genre[]> = {}
+  for (let genre of genres.value) {
+    if (!Object.hasOwn(ret, genre.group_title)) {
+      ret[genre.group_title] = []
+    }
+    ret[genre.group_title].push({ ...genre })
+  }
+  for (let group of Object.getOwnPropertyNames(ret)) {
+    ret[group].sort()
+  }
+  return ret
+})
+
+const emit = defineEmits(['input'])
+watchEffect(() => {
+  if (genresState.value !== 'loaded') {
+    return
+  }
+
+  const codes = model.value.map((genre) => genre.code)
+  navSet('genre', ...codes)
+  emit('input', codes)
+})
+
+useNavigateListener(
+  'genre',
+  (genres: string[]) => {
+    if (genresState.value !== 'loaded') {
+      return
+    }
+
+    const genresLocal = Array.from(genres)
+    genresLocal.sort()
+
+    if (
+      arrayEquals(
+        genresLocal,
+        model.value.map((g) => g.code)
+      )
+    ) {
+      return
+    }
+
+    const newModel = []
+    for (let group in genresByGroups.value) {
+      for (let genre of genresByGroups.value[group]) {
+        if (genresLocal.includes(genre.code)) {
+          newModel.push(genre)
+        }
+      }
+    }
+
+    model.value = newModel
+  },
+  true
+)
 </script>
 
 <template>
@@ -57,8 +144,9 @@ onMounted(async () => {
     >
       <ComboBox
         v-if="genresState == 'loaded'"
-        v-model="model"
-        :items="genres"
+        :items="genreGroups"
+        :model-value="modelGroups"
+        @update:model-value="updateModelGroups"
         multiple
         width="w-full"
       />
@@ -87,12 +175,12 @@ onMounted(async () => {
         <p v-if="model.length === 0">{{ t('search.genre.text_tags') }}</p>
         <button
           v-for="genre in model"
-          :key="genre"
+          :key="genre.code"
           class="badge badge-accent badge-outline bg-base-200 flex-none group whitespace-nowrap overflow-hidden max-w-[99%] justify-start"
-          @click="removeGenre(genre)"
-          :title="t('search.genre.button_remove', { label: genre })"
+          @click="removeGenre(genre.code)"
+          :title="t('search.genre.button_remove', { label: genre.title })"
         >
-          <span class="text-base-content">{{ genre }}</span>
+          <span class="text-base-content">{{ genre.title }}</span>
           <span class="px-1 ml-[-0.3rem] mr-[-0.6rem] text-base-200 group-hover:text-red-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"

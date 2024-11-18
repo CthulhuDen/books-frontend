@@ -22,6 +22,8 @@ export const showError = async <T>(promise: Promise<T>, prefix: string) => {
   }
 }
 
+export type Genre = components['schemas']['Genre']
+
 export const getGenres = async () => requireData(client.GET('/genres'))
 
 type SearchAuthorsQuery = paths['/authors']['get']['parameters']['query']
@@ -31,7 +33,7 @@ export type Author = components['schemas']['Author']
 export const searchAuthors = async (query: SearchAuthorsQuery) =>
   requireData(client.GET('/authors', { params: { query } }))
 
-export const getAuthor = async (id: string) =>
+export const getAuthor = async (id: number) =>
   requireData(client.GET('/authors/{id}', { params: { path: { id } } }))
 
 type SearchSeriesQuery = paths['/series']['get']['parameters']['query']
@@ -41,7 +43,7 @@ export type Series = components['schemas']['Series']
 export const searchSeries = async (query: SearchSeriesQuery) =>
   requireData(client.GET('/series', { params: { query } }))
 
-export const getSeries = async (id: string) =>
+export const getSeries = async (id: number) =>
   requireData(client.GET('/series/{id}', { params: { path: { id } } }))
 
 export type BookGroupingType = components['schemas']['BooksGroupingType']

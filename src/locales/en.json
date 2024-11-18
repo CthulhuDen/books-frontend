@@ -1,5 +1,5 @@
 {
-  "title": "Books Index",
+  "title": "Book Search and Catalog",
   "quote": "\"{item}\"",
   "list": {
     "append": "{items}, {item}",
@@ -32,7 +32,7 @@
     "select": {
       "label_all": "Select all",
       "label_found": "Found items",
-      "label_not_found": "No items found"
+      "label_not_found": "No matching items"
     },
     "show_more": {
       "button_more": "Show more",
@@ -40,14 +40,14 @@
     }
   },
   "toasts": {
-    "dismiss": "Dismiss this message"
+    "dismiss": "Dismiss"
   },
   "search": {
     "genre": {
       "label": "Search for genres",
-      "label_more": "Search for more genres",
-      "label_tags": "You can specify any number of genres to restrict the selection of books",
-      "text_tags": "You can specify any number of genres to restrict the selection of books, or skip filtering by genres completely.",
+      "label_more": "Add additional genres",
+      "label_tags": "Select genres to filter books, or leave empty for all genres",
+      "text_tags": "Select genres to filter books, or leave empty for all genres.",
       "button_remove": "Remove from filter genre {label}",
       "loading": "Loading list of genres..."
     },
@@ -61,20 +61,20 @@
     },
     "books": {
       "label_title": "Search books by title",
-      "label_year": "Filter by publishing year",
+      "label_year": "Filter by publication year",
       "placeholder_year_from": "From",
       "placeholder_year_to": "To"
     },
     "group": {
       "label": "Group books",
-      "button_show_add": "Add grouping",
+      "button_show_add": "Add grouping option",
       "button_add": "Add grouping by {label}",
       "button_remove": "Remove grouping by {label}"
     }
   },
   "book": {
     "label_in_series": "In series:",
-    "label_year": "Published:",
+    "label_year": "Publication year:",
     "label_authors": "@:term.author{':'}|@:term.authors{':'}",
     "label_genres": "@:term.genre{':'}|@:term.genres{':'}"
   },

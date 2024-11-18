@@ -16,7 +16,18 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'https://books.cden.app',
-        changeOrigin: true
+        changeOrigin: true,
+        rewrite: (path) => '/next/' + path
+      },
+      '/web': {
+        target: 'https://books.cden.app',
+        changeOrigin: true,
+        rewrite: (path) => '/next/' + path
+      },
+      '/flibusta-is': {
+        target: 'https://flibusta.is',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/flibusta-is/, '')
       }
     }
   }

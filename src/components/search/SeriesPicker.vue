@@ -8,7 +8,7 @@ import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
   genres: { type: Array<string>, required: true },
-  author: { type: String }
+  author: { type: Number }
 })
 
 const getSequences = async (query: string) =>
@@ -28,7 +28,7 @@ const status = ref<'loading' | 'ready'>('ready')
 useNavigateListener('series', async (val: string | null) => {
   const thisQuery = (currentQuery = {})
 
-  if ((val || '') === (series.value ? series.value.id : '')) {
+  if ((val || '') === (series.value ? series.value.id.toString() : '')) {
     status.value = 'ready'
     return
   }
@@ -41,7 +41,7 @@ useNavigateListener('series', async (val: string | null) => {
 
   status.value = 'loading'
 
-  const ret = await showError(getSeries(val), t('message.error.get_series'))
+  const ret = await showError(getSeries(parseInt(val)), t('message.error.get_series'))
   if (thisQuery !== currentQuery) {
     return
   }
@@ -52,10 +52,11 @@ useNavigateListener('series', async (val: string | null) => {
 
 const emit = defineEmits(['input'])
 watchEffect(() => {
-  if (status.value === 'ready') {
-    navSet('series', series.value ? series.value.id : '')
+  if (status.value !== 'ready') {
+    return
   }
-  emit('input', series.value ? series.value.id : '')
+  navSet('series', series.value ? series.value.id.toString() : '')
+  emit('input', series.value ? series.value.id : 0)
 })
 </script>
 

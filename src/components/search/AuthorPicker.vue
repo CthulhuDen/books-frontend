@@ -29,7 +29,7 @@ const status = ref<'loading' | 'ready'>('ready')
 useNavigateListener('author', async (val: string | null) => {
   const thisQuery = (currentQuery = {})
 
-  if ((val || '') === (author.value ? author.value.id : '')) {
+  if ((val || '') === (author.value ? author.value.id.toString() : '')) {
     status.value = 'ready'
     return
   }
@@ -42,7 +42,7 @@ useNavigateListener('author', async (val: string | null) => {
 
   status.value = 'loading'
 
-  const ret = await showError(getAuthor(val), t('message.error.get_author'))
+  const ret = await showError(getAuthor(parseInt(val)), t('message.error.get_author'))
   if (thisQuery !== currentQuery) {
     return
   }
@@ -53,10 +53,11 @@ useNavigateListener('author', async (val: string | null) => {
 
 const emit = defineEmits(['input'])
 watchEffect(() => {
-  if (status.value === 'ready') {
-    navSet('author', author.value ? author.value.id : '')
+  if (status.value !== 'ready') {
+    return
   }
-  emit('input', author.value ? author.value.id : '')
+  navSet('author', author.value ? author.value.id.toString() : '')
+  emit('input', author.value ? author.value.id : 0)
 })
 
 const bio = computed(() => (author.value ? sanitize(author.value.bio || '') : ''))
@@ -101,5 +102,8 @@ const bio = computed(() => (author.value ? sanitize(author.value.bio || '') : ''
 }
 .bio:deep(> p:last-child) {
   margin-bottom: 0;
+}
+.bio:deep(> img) {
+  max-height: 150px;
 }
 </style>

@@ -28,7 +28,7 @@ export interface paths {
           }
           content: {
             'application/json': {
-              titles: components['schemas']['GenreTitle'][]
+              genres: components['schemas']['Genre'][]
             }
           }
         }
@@ -106,8 +106,8 @@ export interface paths {
         query?: {
           /** @description Term to search in the author name */
           search?: string
-          /** @description Multiple full and unaltered genre titles can be provided */
-          genre?: components['schemas']['GenreTitle'][]
+          /** @description Multiple genre codes can be provided */
+          genre?: components['schemas']['GenreCode'][]
           limit?: number
         }
         header?: never
@@ -202,8 +202,8 @@ export interface paths {
           /** @description Term to search in the series title */
           search?: string
           author?: components['schemas']['AuthorId']
-          /** @description Multiple full and unaltered genre titles can be provided */
-          genre?: components['schemas']['GenreTitle'][]
+          /** @description Multiple genre codes can be provided */
+          genre?: components['schemas']['GenreCode'][]
           limit?: number
         }
         header?: never
@@ -244,11 +244,11 @@ export interface paths {
     get: {
       parameters: {
         query?: {
-          /** @description Term to search in the books title */
+          /** @description Term to search in the book title */
           search?: string
           author?: components['schemas']['AuthorId']
-          /** @description Multiple full and unaltered genre titles can be provided */
-          genre?: components['schemas']['GenreTitle'][]
+          /** @description Multiple genre codes can be provided */
+          genre?: components['schemas']['GenreCode'][]
           series?: components['schemas']['SeriesId']
           year_min?: number
           year_max?: number
@@ -296,34 +296,44 @@ export type webhooks = Record<string, never>
 
 export interface components {
   schemas: {
-    GenreTitle: string
+    GenreCode: string
+    Genre: {
+      code: components['schemas']['GenreCode']
+      title: string
+      group_title: string
+    }
     /** @enum {string} */
     BooksGroupingType: 'author' | 'genres' | 'series'
-    AuthorId: string
+    /** Format: uint */
+    AuthorId: number
     Author: {
       id: components['schemas']['AuthorId']
       name: string
       bio?: string | null
       avatar_url?: string | null
     }
-    SeriesId: string
+    /** Format: uint */
+    SeriesId: number
     Series: {
       id: components['schemas']['SeriesId']
       title: string
     }
     InSeries: {
       id: components['schemas']['SeriesId']
+      /** Format: uint */
       order: number
     }
     Book: {
-      id: string
+      /** Format: uint */
+      id: number
       title: string
       /** @description Unique and sorted by (unspecified priority in the source) */
       author_ids: components['schemas']['AuthorId'][]
       series: components['schemas']['InSeries'][]
       /** @description Unique and sorted by alphabet */
-      genres: components['schemas']['GenreTitle'][]
+      genres: components['schemas']['GenreCode'][]
       language: string
+      /** Format: uint16 */
       year: number
       about?: string | null
       cover_url?: string | null
@@ -334,12 +344,13 @@ export interface components {
         | {
             /** @enum {string} */
             type: 'author' | 'series'
-            value: string
+            /** Format: uint */
+            value: number
           }
         | {
             /** @enum {string} */
             type: 'genres'
-            value: string[]
+            value: components['schemas']['GenreCode'][]
           }
       )[]
     }

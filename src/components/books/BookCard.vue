@@ -6,6 +6,7 @@ import { sanitize } from '@/utils/html'
 import { useI18n } from 'vue-i18n'
 import { tl } from '@/utils/i18n'
 import I18nL from '@/components/common/I18nL.vue'
+import { useGenresStore } from '@/stores/genres'
 
 const props = defineProps<{
   book: Book
@@ -16,6 +17,14 @@ const props = defineProps<{
 const about = computed(() => (props.book.about ? sanitize(props.book.about) : ''))
 
 const { t } = useI18n()
+const { byCode: genreByCode } = useGenresStore()
+
+const genres = computed(() =>
+  props.book.genres.map((code) => {
+    let genre = genreByCode(code)
+    return genre ? genre.title : code
+  })
+)
 </script>
 
 <template>
@@ -47,14 +56,18 @@ const { t } = useI18n()
       <div v-if="book.series.length > 0" class="mb-2">
         <h4 class="inline-block leading-[1.5] font-semibold">{{ t('book.label_in_series') }}</h4>
         {{ ' ' }}
-        {{ tl(book.series.map((s) => t('quote', { item: series[s.id].title }))) }}
+        {{
+          tl(
+            book.series.map((s) => t('quote', { item: series[s.id].title }) + ' (#' + s.order + ')')
+          )
+        }}
       </div>
       <div v-if="book.genres.length > 0" class="mb-2">
         <h4 class="inline-block leading-[1.5] font-semibold">
           {{ t('book.label_genres', book.genres.length) }}
         </h4>
         {{ ' ' }}
-        {{ tl(book.genres) }}
+        {{ tl(genres) }}
       </div>
       <div v-if="book.year > 0" class="mb-2">
         <h4 class="inline-block leading-[1.5] font-semibold">{{ t('book.label_year') }}</h4>
