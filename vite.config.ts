@@ -15,14 +15,15 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://books.cden.app',
-        changeOrigin: true,
-        rewrite: (path) => '/next/' + path
+        // target: 'https://books.cden.app',
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true
+        // rewrite: (path) => '/next' + path
       },
       '/web': {
         target: 'https://books.cden.app',
         changeOrigin: true,
-        rewrite: (path) => '/next/' + path
+        rewrite: (path) => '/next' + path
       },
       '/flibusta-is': {
         target: 'https://flibusta.is',

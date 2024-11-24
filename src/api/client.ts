@@ -2,7 +2,7 @@ import type { components, paths } from '@/api/schema'
 import createClient from 'openapi-fetch'
 import { useToastsStore } from '@/stores/toasts'
 
-const client = createClient<paths>({ baseUrl: '/api' })
+const client = createClient<paths>({ baseUrl: 'api' })
 
 const requireData = async <T>(p: Promise<{ data?: T; error?: any }>) => {
   const { data, error } = await p
