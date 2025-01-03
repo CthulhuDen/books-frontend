@@ -25,6 +25,15 @@ const genres = computed(() =>
     return genre ? genre.title : code
   })
 )
+
+const downloadFormats = computed(() =>
+  props.book.file_type.toLowerCase() === 'fb2'
+    ? [
+        { human: 'fb2', url: 'fb2' },
+        { human: 'epub', url: 'epub' }
+      ]
+    : [{ human: props.book.file_type, url: 'download' }]
+)
 </script>
 
 <template>
@@ -73,6 +82,20 @@ const genres = computed(() =>
         <h4 class="inline-block leading-[1.5] font-semibold">{{ t('book.label_year') }}</h4>
         {{ ' ' }}
         <span>{{ book.year }}</span>
+      </div>
+      <div class="mb-2">
+        <h4 class="inline-block leading-[1.5] font-semibold">{{ t('book.label_download') }}</h4>
+        {{ ' ' }}
+        <template v-for="{ human, url } in downloadFormats" :key="url">
+          <a
+            class="underline font-medium prose text-[--tw-prose-links]"
+            :href="`/flibusta-is/b/${book.id}/${url}`"
+            target="_blank"
+            rel="noreferrer"
+            >{{ human }}</a
+          >
+          {{ ' ' }}
+        </template>
       </div>
       <ShowMore v-if="about" height="10rem" class="hidden md:block">
         <div v-html="about"></div>

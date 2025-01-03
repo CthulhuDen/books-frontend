@@ -76,7 +76,8 @@
     "label_in_series": "In series:",
     "label_year": "Publication year:",
     "label_authors": "@:term.author{':'}|@:term.authors{':'}",
-    "label_genres": "@:term.genre{':'}|@:term.genres{':'}"
+    "label_genres": "@:term.genre{':'}|@:term.genres{':'}",
+    "label_download": "Download:"
   },
   "books": {
     "group": {

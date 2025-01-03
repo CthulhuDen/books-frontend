@@ -76,7 +76,8 @@
     "label_in_series": "В серии:",
     "label_year": "Год публикации:",
     "label_authors": "@:term.author{':'}|@:term.authors{':'}",
-    "label_genres": "@:term.genre{':'}|@:term.genres{':'}"
+    "label_genres": "@:term.genre{':'}|@:term.genres{':'}",
+    "label_download": "Скачать:"
   },
   "books": {
     "group": {

@@ -335,6 +335,7 @@ export interface components {
       language: string
       /** Format: uint16 */
       year: number
+      file_type: string
       about?: string | null
       cover_url?: string | null
     }
